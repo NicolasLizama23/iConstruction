@@ -41,7 +41,7 @@
                           <td>{{a.planned_start|date:"d/m/Y"}} → {{a.planned_end|date:"d/m/Y"}}</td>
                           <td>
                             <div class="progress" style="height: 20px;">
-                              <div class="progress-bar bg-success" role="progressbar" style="width: {{a.progress_percent}}%" aria-valuenow="{{a.progress_percent}}" aria-valuemin="0" aria-valuemax="100">{{a.progress_percent}}%</div>
+                              <div class="progress-bar {% if a.progress_percent < 25 %}bg-danger{% elif a.progress_percent < 50 %}bg-warning{% elif a.progress_percent < 75 %}bg-info{% else %}bg-success{% endif %}" role="progressbar" style="width: {{a.progress_percent}}%" aria-valuenow="{{a.progress_percent}}" aria-valuemin="0" aria-valuemax="100">{{a.progress_percent}}%</div>
                             </div>
                           </td>
                           <td>
