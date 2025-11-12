@@ -12,6 +12,13 @@ class ActivityForm(forms.ModelForm):
         fields = ['project','name','planned_start','planned_end','progress_percent','status']
 
 class ActivityLogForm(forms.ModelForm):
+    status = forms.ChoiceField(
+        choices=Activity.STATUS,
+        required=False,
+        label='Nuevo Estado (opcional)',
+        help_text='Deja en blanco para actualizar automáticamente según el progreso'
+    )
+
     class Meta:
         model = ActivityLog
-        fields = ['activity','date','progress_percent','notes']
+        fields = ['activity','date','progress_percent','notes','status']
