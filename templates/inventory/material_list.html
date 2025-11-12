@@ -30,8 +30,8 @@
                   <tr>
                     <td>{{m.name}}</td>
                     <td>{{m.get_unit_display}}</td>
-                    <td class="{% if m.stock <= m.min_stock %}text-danger fw-bold{% endif %}">{{m.stock}}</td>
-                    <td>{{m.min_stock}}</td>
+                    <td class="{% if m.stock <= m.min_stock %}text-danger fw-bold{% endif %}">{{m.stock|floatformat:0}}</td>
+                    <td>{{m.min_stock|floatformat:0}}</td>
                   </tr>
                 {% empty %}
                   <tr>

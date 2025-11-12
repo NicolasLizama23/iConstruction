@@ -1,10 +1,11 @@
 #modules
 node_modules/
+#owo
 
 #package-lock.json
 package-lock.json
-
-
+#owo
+#owo
 # Python
 __pycache__/
 *.py[cod]
