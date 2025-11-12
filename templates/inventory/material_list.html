@@ -1,22 +1,38 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center">
-  <h3>Materiales</h3>
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h3>📦 Gestión de Materiales</h3>
   <div>
-    <a class="btn btn-primary btn-sm" href="{% url 'material_create' %}">Nuevo Material</a>
-    <a class="btn btn-outline-secondary btn-sm" href="{% url 'movement_create' %}">Registrar Movimiento</a>
+    <a class="btn btn-primary" href="{% url 'material_create' %}">➕ Nuevo Material</a>
+    <a class="btn btn-outline-secondary" href="{% url 'movement_create' %}">📝 Registrar Movimiento</a>
   </div>
 </div>
-<table class="table table-striped mt-3">
-  <thead><tr><th>Nombre</th><th>Unidad</th><th>Stock</th><th>Mínimo</th></tr></thead>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>📝 Nombre</th>
+      <th>⚖️ Unidad</th>
+      <th>📊 Stock Actual</th>
+      <th>📉 Stock Mínimo</th>
+    </tr>
+  </thead>
   <tbody>
     {% for m in materials %}
-      <tr><td>{{m.name}}</td><td>{{m.get_unit_display}}</td><td>{{m.stock}}</td><td>{{m.min_stock}}</td></tr>
+      <tr>
+        <td>{{m.name}}</td>
+        <td>{{m.get_unit_display}}</td>
+        <td class="{% if m.stock <= m.min_stock %}text-danger font-weight-bold{% endif %}">{{m.stock}}</td>
+        <td>{{m.min_stock}}</td>
+      </tr>
     {% empty %}
-      <tr><td colspan="4">No hay materiales</td></tr>
+      <tr>
+        <td colspan="4" class="text-center text-muted">No hay materiales registrados</td>
+      </tr>
     {% endfor %}
   </tbody>
 </table>
-<hr>
-<a class="btn btn-secondary btn-sm" href="{% url 'tool_list' %}">Ir a Herramientas</a>
+<hr class="my-4">
+<div class="text-center">
+  <a class="btn btn-secondary" href="{% url 'tool_list' %}">🔧 Ir a Gestión de Herramientas</a>
+</div>
 {% endblock %}

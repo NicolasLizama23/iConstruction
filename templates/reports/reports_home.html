@@ -1,8 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
-<h3>Reportes</h3>
-<ul>
-  <li><a href="{% url 'inventory_csv' %}">Descargar inventario (CSV)</a></li>
-  <li><a href="{% url 'activities_csv' %}">Descargar actividades (CSV)</a></li>
-</ul>
+<div class="text-center mb-4">
+  <h3>📊 Centro de Reportes</h3>
+  <p class="text-muted">Descarga reportes detallados de tu inventario y actividades</p>
+</div>
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body text-center">
+        <h5 class="card-title">📦 Reporte de Inventario</h5>
+        <p class="card-text">Descarga un archivo CSV con el estado actual de todos los materiales y herramientas.</p>
+        <a href="{% url 'inventory_csv' %}" class="btn btn-primary">📥 Descargar CSV</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body text-center">
+        <h5 class="card-title">📋 Reporte de Actividades</h5>
+        <p class="card-text">Descarga un archivo CSV con el progreso de todas las actividades y proyectos.</p>
+        <a href="{% url 'activities_csv' %}" class="btn btn-primary">📥 Descargar CSV</a>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
