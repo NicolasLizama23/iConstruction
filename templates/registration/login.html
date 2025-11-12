@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card shadow">
+      <div class="card-body">
+        <h3 class="card-title text-center mb-4">🔑 Iniciar Sesión</h3>
+        {% if form.errors %}
+          <div class="alert alert-danger" role="alert">
+            ❌ Usuario o contraseña incorrectos. Por favor, verifica tus credenciales.
+          </div>
+        {% endif %}
+        <form method="post">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="username" class="form-label">👤 Usuario</label>
+            <input class="form-control {% if form.username.errors %}is-invalid{% endif %}" id="username" name="username" value="{{ form.username.value|default_if_none:'' }}" required>
+            {% if form.username.errors %}
+              <div class="invalid-feedback">
+                {% for error in form.username.errors %}{{ error }}{% endfor %}
+              </div>
+            {% endif %}
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">🔒 Contraseña</label>
+            <input class="form-control {% if form.password.errors %}is-invalid{% endif %}" id="password" type="password" name="password" required>
+            {% if form.password.errors %}
+              <div class="invalid-feedback">
+                {% for error in form.password.errors %}{{ error }}{% endfor %}
+              </div>
+            {% endif %}
+          </div>
+          <div class="d-grid">
+            <button class="btn btn-primary btn-lg">🚀 Ingresar</button>
+          </div>
+        </form>
+        <div class="text-center mt-3">
+          <small class="text-muted">Sistema de Gestión de Construcción iConstruction</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

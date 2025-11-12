@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between">
+  <h3>Herramientas</h3>
+  <div>
+    <a class="btn btn-primary btn-sm" href="{% url 'tool_create' %}">Agregar herramienta</a>
+    <a class="btn btn-outline-secondary btn-sm" href="{% url 'tool_assign' %}">Asignar herramienta</a>
+  </div>
+</div>
+<table class="table table-sm mt-3">
+  <thead><tr><th>Código</th><th>Nombre</th><th>Estado</th><th>Asignada a</th></tr></thead>
+  <tbody>
+    {% for t in tools %}
+      <tr><td>{{t.code}}</td><td>{{t.name}}</td><td>{{t.get_status_display}}</td><td>{{t.assigned_to}}</td></tr>
+    {% empty %}
+      <tr><td colspan="4">Sin herramientas</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+<h5>Últimas asignaciones</h5>
+<table class="table table-sm">
+  <thead><tr><th>Herramienta</th><th>Usuario</th><th>Asignada</th><th>Devuelta</th><th></th></tr></thead>
+  <tbody>
+    {% for a in assignments %}
+      <tr>
+        <td>{{a.tool}}</td><td>{{a.user}}</td><td>{{a.assigned_at}}</td><td>{{a.returned_at|default:"-"}}</td>
+        <td>{% if not a.returned_at %}<a class="btn btn-sm btn-success" href="{% url 'tool_return' a.id %}">Registrar devolución</a>{% endif %}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5">Sin asignaciones recientes</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

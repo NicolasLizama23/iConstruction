@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+
+# Entorno/secretos
+.venv/
+.env
+.env.*
+
+# Django
+staticfiles/
+media/
+
+# Base de datos local (si alguna vez usas sqlite)
+db.sqlite3
+
+# IDEs
+.vscode/
+.idea/
+*.code-workspace
+
+# SO
+.DS_Store
+Thumbs.db
