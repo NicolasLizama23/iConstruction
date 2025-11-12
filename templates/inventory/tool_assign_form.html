@@ -1,8 +1,44 @@
 {% extends 'base.html' %}
 {% block content %}
-<h3>Asignar herramienta</h3>
-<form method="post">{% csrf_token %}
-  {{form.as_p}}
-  <button class="btn btn-primary">Asignar</button>
-</form>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header bg-info text-white text-center">
+          <h3 class="mb-0">🔄 Asignar Herramienta</h3>
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="{{ form.tool.id_for_label }}" class="form-label">{{ form.tool.label }}</label>
+              {{ form.tool }}
+              {% if form.tool.errors %}
+                <div class="text-danger">{{ form.tool.errors.0 }}</div>
+              {% endif %}
+            </div>
+            <div class="mb-3">
+              <label for="{{ form.user.id_for_label }}" class="form-label">{{ form.user.label }}</label>
+              {{ form.user }}
+              {% if form.user.errors %}
+                <div class="text-danger">{{ form.user.errors.0 }}</div>
+              {% endif %}
+            </div>
+            <div class="mb-3">
+              <label for="{{ form.notes.id_for_label }}" class="form-label">{{ form.notes.label }}</label>
+              {{ form.notes }}
+              {% if form.notes.errors %}
+                <div class="text-danger">{{ form.notes.errors.0 }}</div>
+              {% endif %}
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <a href="{% url 'tool_list' %}" class="btn btn-secondary me-md-2">❌ Cancelar</a>
+              <button type="submit" class="btn btn-info">🔄 Asignar Herramienta</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

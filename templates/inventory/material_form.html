@@ -1,8 +1,60 @@
 {% extends 'base.html' %}
 {% block content %}
-<h3>Nuevo Material</h3>
-<form method="post">{% csrf_token %}
-  {{form.as_p}}
-  <button class="btn btn-primary">Guardar</button>
-</form>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+          <h3 class="mb-0">📦 Nuevo Material</h3>
+        </div>
+        <div class="card-body">
+          <form method="post">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+              {{ form.name }}
+              {% if form.name.errors %}
+                <div class="text-danger">{{ form.name.errors.0 }}</div>
+              {% endif %}
+            </div>
+            <div class="mb-3">
+              <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}</label>
+              {{ form.description }}
+              {% if form.description.errors %}
+                <div class="text-danger">{{ form.description.errors.0 }}</div>
+              {% endif %}
+            </div>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="{{ form.unit.id_for_label }}" class="form-label">{{ form.unit.label }}</label>
+                {{ form.unit }}
+                {% if form.unit.errors %}
+                  <div class="text-danger">{{ form.unit.errors.0 }}</div>
+                {% endif %}
+              </div>
+              <div class="col-md-6 mb-3">
+                <label for="{{ form.stock.id_for_label }}" class="form-label">{{ form.stock.label }}</label>
+                {{ form.stock }}
+                {% if form.stock.errors %}
+                  <div class="text-danger">{{ form.stock.errors.0 }}</div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="{{ form.min_stock.id_for_label }}" class="form-label">{{ form.min_stock.label }}</label>
+              {{ form.min_stock }}
+              {% if form.min_stock.errors %}
+                <div class="text-danger">{{ form.min_stock.errors.0 }}</div>
+              {% endif %}
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <a href="{% url 'material_list' %}" class="btn btn-secondary me-md-2">❌ Cancelar</a>
+              <button type="submit" class="btn btn-primary">💾 Guardar Material</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

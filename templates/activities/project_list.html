@@ -1,57 +1,74 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
-  <h3>🏗️ Gestión de Proyectos</h3>
-  <div>
-    <a class="btn btn-primary" href="{% url 'project_create' %}">➕ Nuevo Proyecto</a>
-    <a class="btn btn-outline-secondary" href="{% url 'activity_create' %}">📋 Nueva Actividad</a>
-    <a class="btn btn-outline-info" href="{% url 'activity_log_create' %}">📝 Registrar Avance</a>
-  </div>
-</div>
-{% for p in projects %}
-  <div class="card my-3 shadow-sm">
-    <div class="card-body">
-      <h5 class="card-title">{{p.name}}</h5>
-      <p class="card-text text-muted">{{p.description}}</p>
-      <h6 class="mt-3">📋 Actividades del Proyecto</h6>
-      <table class="table table-hover">
-        <thead class="table-light">
-          <tr>
-            <th>📝 Actividad</th>
-            <th>📅 Planificado</th>
-            <th>📊 Progreso</th>
-            <th>🔄 Estado</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for a in p.activities.all %}
-            <tr>
-              <td>{{a.name}}</td>
-              <td>{{a.planned_start|date:"d/m/Y"}} → {{a.planned_end|date:"d/m/Y"}}</td>
-              <td>
-                <div class="progress" style="height: 20px;">
-                  <div class="progress-bar bg-success" role="progressbar" style="width: {{a.progress_percent}}%" aria-valuenow="{{a.progress_percent}}" aria-valuemin="0" aria-valuemax="100">{{a.progress_percent}}%</div>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-12">
+      <div class="card shadow">
+        <div class="card-header bg-primary text-white text-center">
+          <h3 class="mb-0">🏗️ Gestión de Proyectos</h3>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h5 class="mb-0">Lista de Proyectos</h5>
+            <div>
+              <a class="btn btn-success me-2" href="{% url 'project_create' %}">➕ Nuevo Proyecto</a>
+              <a class="btn btn-outline-info me-2" href="{% url 'activity_create' %}">📋 Nueva Actividad</a>
+              <a class="btn btn-outline-warning" href="{% url 'activity_log_create' %}">📈 Registrar Avance</a>
+            </div>
+          </div>
+          {% for p in projects %}
+            <div class="card my-4 shadow-sm border-primary">
+              <div class="card-header bg-light">
+                <h5 class="card-title mb-0">{{p.name}}</h5>
+                <small class="text-muted">{{p.description}}</small>
+              </div>
+              <div class="card-body">
+                <h6 class="mt-3 text-center">📋 Actividades del Proyecto</h6>
+                <div class="table-responsive">
+                  <table class="table table-hover">
+                    <thead class="table-primary">
+                      <tr>
+                        <th>📝 Actividad</th>
+                        <th>📅 Planificado</th>
+                        <th>📊 Progreso</th>
+                        <th>🔄 Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for a in p.activities.all %}
+                        <tr>
+                          <td>{{a.name}}</td>
+                          <td>{{a.planned_start|date:"d/m/Y"}} → {{a.planned_end|date:"d/m/Y"}}</td>
+                          <td>
+                            <div class="progress" style="height: 20px;">
+                              <div class="progress-bar bg-success" role="progressbar" style="width: {{a.progress_percent}}%" aria-valuenow="{{a.progress_percent}}" aria-valuemin="0" aria-valuemax="100">{{a.progress_percent}}%</div>
+                            </div>
+                          </td>
+                          <td>
+                            <span class="badge {% if a.status == 'completada' %}bg-success{% elif a.status == 'en_progreso' %}bg-primary{% elif a.status == 'pendiente' %}bg-warning{% else %}bg-secondary{% endif %}">
+                              {{a.get_status_display}}
+                            </span>
+                          </td>
+                        </tr>
+                      {% empty %}
+                        <tr>
+                          <td colspan="4" class="text-center text-muted py-4">No hay actividades en este proyecto</td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
                 </div>
-              </td>
-              <td>
-                <span class="badge {% if a.status == 'completed' %}bg-success{% elif a.status == 'in_progress' %}bg-primary{% elif a.status == 'pending' %}bg-warning{% else %}bg-secondary{% endif %}">
-                  {{a.get_status_display}}
-                </span>
-              </td>
-            </tr>
+              </div>
+            </div>
           {% empty %}
-            <tr>
-              <td colspan="4" class="text-center text-muted">No hay actividades en este proyecto</td>
-            </tr>
+            <div class="text-center mt-5">
+              <h4 class="text-muted">🏗️ No hay proyectos registrados</h4>
+              <p class="text-muted">Comienza creando tu primer proyecto para gestionar tus actividades de construcción.</p>
+            </div>
           {% endfor %}
-        </tbody>
-      </table>
+        </div>
+      </div>
     </div>
   </div>
-{% empty %}
-  <div class="text-center mt-5">
-    <h4 class="text-muted">🏗️ No hay proyectos registrados</h4>
-    <p class="text-muted">Comienza creando tu primer proyecto para gestionar tus actividades de construcción.</p>
-  </div>
-{% endfor %}
+</div>
 {% endblock %}
