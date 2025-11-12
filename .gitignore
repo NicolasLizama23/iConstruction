@@ -1,5 +1,6 @@
 #modules
 node_modules/
+#owo
 
 #package-lock.json
 package-lock.json
