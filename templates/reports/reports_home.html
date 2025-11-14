@@ -14,8 +14,11 @@
               <div class="card h-100 border-primary">
                 <div class="card-body text-center">
                   <h5 class="card-title text-primary">📦 Reporte de Inventario</h5>
-                  <p class="card-text">Descarga un archivo CSV con el estado actual de todos los materiales y herramientas.</p>
-                  <a href="{% url 'inventory_csv' %}" class="btn btn-primary btn-lg">📥 Descargar CSV</a>
+                  <p class="card-text">Descarga un archivo CSV o Excel con el estado actual de todos los materiales y herramientas.</p>
+                  <div class="d-flex justify-content-center gap-2">
+                    <a href="{% url 'inventory_csv' %}" class="btn btn-primary">📥 CSV</a>
+                    <a href="{% url 'inventory_excel' %}" class="btn btn-outline-primary">📊 Excel</a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -23,8 +26,11 @@
               <div class="card h-100 border-success">
                 <div class="card-body text-center">
                   <h5 class="card-title text-success">📋 Reporte de Actividades</h5>
-                  <p class="card-text">Descarga un archivo CSV con el progreso de todas las actividades y proyectos.</p>
-                  <a href="{% url 'activities_csv' %}" class="btn btn-success btn-lg">📥 Descargar CSV</a>
+                  <p class="card-text">Descarga un archivo CSV o Excel con el progreso de todas las actividades y proyectos.</p>
+                  <div class="d-flex justify-content-center gap-2">
+                    <a href="{% url 'activities_csv' %}" class="btn btn-success">📥 CSV</a>
+                    <a href="{% url 'activities_excel' %}" class="btn btn-outline-success">📊 Excel</a>
+                  </div>
                 </div>
               </div>
             </div>

@@ -1,33 +1,38 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 {% block content %}
 <div class="container-fluid mt-5">
   <div class="row justify-content-center">
     <div class="col-12">
       <div class="card shadow-lg">
         <div class="card-header bg-primary text-white text-center">
-          <h3 class="mb-0">
+          <h3 class="mb-0 project-page-header">
             <i class="fas fa-project-diagram me-2"></i>Gestión de Proyectos
           </h3>
         </div>
         <div class="card-body">
           <div class="d-flex justify-content-between align-items-center mb-5">
-            <h3 class="mb-0">
+            <h3 class="mb-0 project-page-subheader">
               <i class="fas fa-list me-2"></i>Lista de Proyectos
             </h3>
-            <div>
+            {% if user|has_group:'Planificador' or not user|has_group:'Bodeguero' and not user|has_group:'Analista' and not user|has_group:'Operario' %}
+            <div class="project-page-buttons">
               <a class="btn btn-success btn-lg me-3 fs-5" href="{% url 'project_create' %}">
                 <i class="fas fa-plus me-2"></i>Nuevo Proyecto
               </a>
               <a class="btn btn-outline-info btn-lg me-3 fs-5" href="{% url 'activity_create' %}">
                 <i class="fas fa-clipboard me-2"></i>Nueva Actividad
               </a>
+              {% if not user|has_group:'Planificador' and not user|has_group:'Analista' and not user|has_group:'Operario' %}
               <a class="btn btn-outline-warning btn-lg fs-5" href="{% url 'activity_log_create' %}">
                 <i class="fas fa-chart-line me-2"></i>Registrar Avance
               </a>
+              {% endif %}
             </div>
+            {% endif %}
           </div>
           {% for p in projects %}
-            <div class="card my-5 shadow border-primary">
+            <div class="card my-5 shadow border-primary project-card">
               <div class="card-header bg-primary text-white">
                 <h3 class="card-title mb-1 fs-2 text-white">{{p.name}}</h3>
                 <small class="text-white-50 fs-5">{{p.description}}</small>
@@ -37,7 +42,7 @@
                   <i class="fas fa-clipboard-list me-2 fs-1"></i>Actividades del Proyecto
                 </h4>
                 <div class="table-responsive">
-                  <table class="table table-hover fs-5">
+                  <table class="table table-hover project-list-table">
                     <thead class="table-primary">
                       <tr>
                         <th class="py-3">

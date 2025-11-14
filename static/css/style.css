@@ -222,9 +222,59 @@ a:hover {
 }
 
 /* Responsive adjustments */
+@media (max-width: 1200px) {
+    .container-fluid {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .stats-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .stats-card h3 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+
+    .nav-link {
+        font-size: 1rem;
+    }
+
+    .btn {
+        padding: 0.5rem 1.2rem;
+        font-size: 1rem;
+    }
+
+    .card-body {
+        padding: 1.5rem;
+    }
+
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+
+    .stats-card h3 {
+        font-size: 1.8rem;
+    }
+}
+
 @media (max-width: 768px) {
     .navbar-brand {
         font-size: 1.2rem;
+    }
+
+    .navbar-brand i {
+        font-size: 1.8rem;
     }
 
     main {
@@ -232,7 +282,15 @@ a:hover {
     }
 
     .card-body {
+        padding: 1rem;
+    }
+
+    .card-header {
         padding: 1.5rem;
+    }
+
+    .card-header h3 {
+        font-size: 1.4rem;
     }
 
     .btn {
@@ -240,8 +298,187 @@ a:hover {
         font-size: 0.9rem;
     }
 
+    .btn-lg {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
+    }
+
     .table-responsive {
+        font-size: 0.8rem;
+    }
+
+    .stats-card .card-body {
+        padding: 1rem;
+    }
+
+    .stats-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .form-control {
+        padding: 0.6rem;
         font-size: 0.9rem;
+    }
+
+    .form-label {
+        font-size: 0.9rem;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    body {
+        font-size: 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .navbar-brand i {
+        font-size: 1.5rem;
+    }
+
+    .nav-link {
+        font-size: 0.9rem;
+    }
+
+    .nav-link i {
+        font-size: 1.2rem;
+    }
+
+    main {
+        padding: 0.5rem 0;
+    }
+
+    .card-body {
+        padding: 0.75rem;
+    }
+
+    .card-header {
+        padding: 1rem;
+    }
+
+    .card-header h3 {
+        font-size: 1.2rem;
+    }
+
+    .btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    .table-responsive {
+        font-size: 0.75rem;
+    }
+
+    .stats-card .card-body {
+        padding: 0.75rem;
+    }
+
+    .stats-card h3 {
+        font-size: 1.2rem;
+    }
+
+    .form-control {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
+
+    .form-label {
+        font-size: 0.8rem;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 1.2rem;
+    }
+
+    .alert {
+        font-size: 0.9rem;
+        padding: 0.75rem;
+    }
+
+    /* Dashboard table responsive */
+    .dashboard-table {
+        font-size: 0.8rem;
+    }
+
+    .dashboard-table th,
+    .dashboard-table td {
+        padding: 0.5rem 0.25rem;
+        font-size: 0.7rem;
+    }
+
+    .dashboard-table .badge {
+        font-size: 0.6rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .dashboard-table i {
+        font-size: 0.8rem;
+    }
+
+    /* Project list responsive */
+    .card .card-title {
+        font-size: 0.9rem;
+    }
+
+    .card .card-title small {
+        font-size: 0.7rem;
+    }
+
+    .progress {
+        height: 18px;
+    }
+
+    .progress-bar {
+        font-size: 0.6rem;
+    }
+
+    /* Project list table */
+    .project-list-table {
+        font-size: 0.75rem;
+    }
+
+    .project-list-table th,
+    .project-list-table td {
+        padding: 0.4rem 0.2rem;
+        font-size: 0.65rem;
+    }
+
+    .project-list-table .badge {
+        font-size: 0.55rem;
+        padding: 0.15rem 0.3rem;
+    }
+
+    .project-list-table i {
+        font-size: 0.7rem;
+    }
+
+    /* Project cards */
+    .project-card .card-title {
+        font-size: 0.85rem;
+    }
+
+    .project-card small {
+        font-size: 0.65rem;
+    }
+
+    /* Project page headers */
+    .project-page-header {
+        font-size: 1.2rem;
+    }
+
+    .project-page-subheader {
+        font-size: 1rem;
+    }
+
+    .project-page-buttons .btn {
+        font-size: 0.8rem;
+        padding: 0.5rem 1rem;
     }
 }
 
