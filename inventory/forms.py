@@ -20,3 +20,10 @@ class ToolAssignmentForm(forms.ModelForm):
     class Meta:
         model = ToolAssignment
         fields = ['tool','user','notes']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        tool = cleaned_data.get('tool')
+        if tool and tool.status == 'asignada':
+            raise forms.ValidationError("Esta herramienta ya está asignada a otro usuario.")
+        return cleaned_data

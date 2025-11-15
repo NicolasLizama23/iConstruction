@@ -6,19 +6,21 @@ from django.conf import settings
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'iconstruction_project.settings')
 django.setup()
 
-from inventory.models import Material, Tool, MaterialMovement
+from inventory.models import Material, Tool, MaterialMovement, ToolAssignment
 from activities.models import Project, Activity
 from django.contrib.auth.models import User
 from django.utils import timezone
+import random
 
-# Crear materiales
-materials_data = [
-    {'name': 'Cemento', 'unit': 'kg', 'stock': 500, 'min_stock': 100},
-    {'name': 'Arena', 'unit': 'm3', 'stock': 200, 'min_stock': 50},
-    {'name': 'Grava', 'unit': 'm3', 'stock': 150, 'min_stock': 30},
-    {'name': 'Acero', 'unit': 'kg', 'stock': 300, 'min_stock': 75},
-    {'name': 'Ladrillos', 'unit': 'un', 'stock': 1000, 'min_stock': 200},
-]
+# Crear materiales (200+ para pruebas de rendimiento)
+materials_data = []
+for i in range(1, 251):  # 250 materiales
+    materials_data.append({
+        'name': f'Material {i}',
+        'unit': random.choice(['kg', 'm3', 'un', 'lt']),
+        'stock': random.randint(100, 1000),
+        'min_stock': random.randint(10, 100)
+    })
 
 for data in materials_data:
     Material.objects.get_or_create(
@@ -30,14 +32,14 @@ for data in materials_data:
         }
     )
 
-# Crear herramientas
-tools_data = [
-    {'name': 'Martillo', 'code': 'HAM001', 'status': 'available'},
-    {'name': 'Taladro', 'code': 'TAL001', 'status': 'available'},
-    {'name': 'Sierra', 'code': 'SIE001', 'status': 'in_use'},
-    {'name': 'Nivel', 'code': 'NIV001', 'status': 'available'},
-    {'name': 'Cinta Métrica', 'code': 'CIN001', 'status': 'maintenance'},
-]
+# Crear herramientas (más herramientas para pruebas)
+tools_data = []
+for i in range(1, 51):  # 50 herramientas
+    tools_data.append({
+        'name': f'Herramienta {i}',
+        'code': f'HER{i:03d}',
+        'status': random.choice(['disponible', 'asignada', 'mantenimiento'])
+    })
 
 for data in tools_data:
     Tool.objects.get_or_create(
@@ -46,23 +48,39 @@ for data in tools_data:
         defaults={'status': data['status']}
     )
 
-# Crear movimientos para materiales
+# Crear movimientos para materiales (muchos movimientos para pruebas)
 user = User.objects.filter(is_superuser=True).first()
 if user:
-    for material in Material.objects.all():
+    materials = list(Material.objects.all())
+    for i in range(1000):  # 1000 movimientos
+        material = random.choice(materials)
         MaterialMovement.objects.get_or_create(
             material=material,
-            kind='ingreso',
-            quantity=50,
+            kind=random.choice(['ingreso', 'salida']),
+            quantity=random.randint(1, 100),
             user=user,
-            defaults={'notes': 'Movimiento inicial de prueba'}
+            defaults={'notes': f'Movimiento de prueba {i+1}'}
         )
 
-# Crear proyectos y actividades
-projects_data = [
-    {'name': 'Construcción Edificio A', 'description': 'Proyecto de construcción residencial'},
-    {'name': 'Remodelación Oficina', 'description': 'Remodelación de oficinas corporativas'},
-]
+# Crear asignaciones de herramientas
+users = list(User.objects.all())
+tools = list(Tool.objects.filter(status='asignada'))
+for i, tool in enumerate(tools[:20]):  # Asignar 20 herramientas
+    if users:
+        assigned_user = random.choice(users)
+        ToolAssignment.objects.get_or_create(
+            tool=tool,
+            user=assigned_user,
+            defaults={'notes': f'Asignación de prueba {i+1}'}
+        )
+
+# Crear proyectos y actividades (más proyectos para pruebas)
+projects_data = []
+for i in range(1, 21):  # 20 proyectos
+    projects_data.append({
+        'name': f'Proyecto {i}',
+        'description': f'Descripción del proyecto {i}'
+    })
 
 for data in projects_data:
     project, created = Project.objects.get_or_create(
@@ -70,20 +88,21 @@ for data in projects_data:
         defaults={'description': data['description']}
     )
     if created:
-        # Crear actividades para el proyecto
-        activities_data = [
-            {'name': 'Excavación', 'progress_percent': 100},
-            {'name': 'Cimentación', 'progress_percent': 80},
-            {'name': 'Estructura', 'progress_percent': 50},
-        ]
-        for act_data in activities_data:
+        # Crear actividades para el proyecto (3-5 actividades por proyecto)
+        num_activities = random.randint(3, 5)
+        for j in range(num_activities):
             Activity.objects.get_or_create(
                 project=project,
-                name=act_data['name'],
+                name=f'Actividad {j+1} del Proyecto {project.name}',
                 defaults={
-                    'progress_percent': act_data['progress_percent'],
-                    'status': 'en_progreso'
+                    'progress_percent': random.randint(0, 100),
+                    'status': random.choice(['pendiente', 'en_progreso', 'completada'])
                 }
             )
 
-print("Datos de prueba agregados exitosamente.")
+print("Datos de prueba para rendimiento agregados exitosamente.")
+print(f"- {Material.objects.count()} materiales creados")
+print(f"- {Tool.objects.count()} herramientas creadas")
+print(f"- {MaterialMovement.objects.count()} movimientos creados")
+print(f"- {Project.objects.count()} proyectos creados")
+print(f"- {Activity.objects.count()} actividades creadas")

@@ -1,5 +1,5 @@
 # iConstruction (Django + MySQL XAMPP)
-Módulos: Bodega (materiales, herramientas, movimientos y asignaciones), Proyectos y Actividades (avance), Reportes (CSV).
+Módulos: Bodega (materiales, herramientas, movimientos y asignaciones), Proyectos y Actividades (avance), Reportes (CSV y Excel).
 
 ## Instalación (Windows + XAMPP)
 1) Instala Python 3.11+ y Git.
@@ -31,7 +31,9 @@ Módulos: Bodega (materiales, herramientas, movimientos y asignaciones), Proyect
 - Crear material, registrar ingreso y salida; verificar stock actualizado.
 - Crear herramienta, asignar a usuario y luego registrar devolución.
 - Crear proyecto, actividad y registro de avance (log); revisar % y estado.
-- Descargar reportes CSV de inventario y actividades.
+- Descargar reportes CSV y Excel de inventario y actividades.
+- Ejecutar pruebas de rendimiento con `python performance_test.py`.
+- Poblar datos de prueba con `python populate_data.py`.
 
 ## Seguridad
 - Autenticación por Django auth; limitar permisos vía admin según perfiles.
@@ -40,8 +42,10 @@ Módulos: Bodega (materiales, herramientas, movimientos y asignaciones), Proyect
 ## Estructura
 - `inventory`: Materiales, Herramientas, Movimientos, Asignaciones.
 - `activities`: Proyectos, Actividades, Logs de avance.
-- `reports`: Exportación CSV.
-- `core`: Panel.
+- `reports`: Exportación CSV y Excel.
+- `core`: Panel de control (dashboard).
+- `populate_data.py`: Script para poblar datos de prueba (250 materiales, 50 herramientas, 1000 movimientos, 20 proyectos).
+- `performance_test.py`: Script de pruebas de rendimiento (listados, exportaciones CSV).
 
 ## Despliegue
 - Configurar `ALLOWED_HOSTS` y `DEBUG=0` en `.env`.
