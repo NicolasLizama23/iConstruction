@@ -1,11 +1,35 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+load_dotenv()
+
+import dj_database_url
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'dev-secret-key-change-me')
-DEBUG = os.getenv('DJANGO_DEBUG', '1') == '1'
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+# Define DEBUG ANTES de usarlo
+DEBUG = os.getenv("DJANGO_DEBUG", "0") == "1"
+
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = "iconstructionclave123"
+    else:
+        raise ValueError("DJANGO_SECRET_KEY is required in production")
+
+DEBUG = os.getenv('DJANGO_DEBUG', '0') == '1'
+
+RENDER_HOST = os.environ.get("RENDER_EXTERNAL_HOSTNAME")
+
+if RENDER_HOST:
+    ALLOWED_HOSTS = [RENDER_HOST, "localhost", "127.0.0.1"]
+    CSRF_TRUSTED_ORIGINS = [f"https://{RENDER_HOST}"]
+else:
+    ALLOWED_HOSTS = [h.strip() for h in os.getenv(
+        "DJANGO_ALLOWED_HOSTS",
+        "localhost,127.0.0.1"
+    ).split(",") if h.strip()]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -22,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -50,27 +75,40 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'iconstruction_project.wsgi.application'
 
-# MySQL (XAMPP) config via env vars with sensible defaults
-DB_NAME = os.getenv('MYSQL_DATABASE', 'iconstruction')
-DB_USER = os.getenv('MYSQL_USER', 'root')
-DB_PASSWORD = os.getenv('MYSQL_PASSWORD', '')
-DB_HOST = os.getenv('MYSQL_HOST', '127.0.0.1')
-DB_PORT = os.getenv('MYSQL_PORT', '3306')
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': DB_NAME,
-        'USER': DB_USER,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': DB_HOST,
-        'PORT': DB_PORT,
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-            'charset': 'utf8mb4',
-        },
+if DATABASE_URL:
+    # Render / Producción (PostgreSQL)
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=not DEBUG,
+        )
     }
-}
+else:
+    # Local (XAMPP / MySQL)
+    DB_NAME = os.getenv("MYSQL_DATABASE", "iconstruction")
+    DB_USER = os.getenv("MYSQL_USER", "root")
+    DB_PASSWORD = os.getenv("MYSQL_PASSWORD", "")
+    DB_HOST = os.getenv("MYSQL_HOST", "127.0.0.1")
+    DB_PORT = os.getenv("MYSQL_PORT", "3306")
+
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.mysql",
+            "NAME": DB_NAME,
+            "USER": DB_USER,
+            "PASSWORD": DB_PASSWORD,
+            "HOST": DB_HOST,
+            "PORT": DB_PORT,
+            "OPTIONS": {
+                "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+                "charset": "utf8mb4",
+            },
+        }
+    }
+
 
 # SQLite config for development (comment out MySQL above if using this)
 # DATABASES = {
@@ -91,10 +129,17 @@ LANGUAGE_CODE = 'es-cl'
 TIME_ZONE = 'America/Santiago'
 USE_I18N = True
 USE_TZ = True
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'

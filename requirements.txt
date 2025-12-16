@@ -1,4 +1,9 @@
 Django==5.0.6
-PyMySQL==1.1.0
 python-dotenv==1.0.1
 openpyxl==3.1.2
+
+# Deploy en Render
+gunicorn
+whitenoise[brotli]
+dj-database-url
+psycopg2-binary

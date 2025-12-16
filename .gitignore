@@ -1,11 +1,9 @@
 #modules
 node_modules/
-#owo
 
 #package-lock.json
 package-lock.json
-#owo
-#owo
+
 # Python
 __pycache__/
 *.py[cod]
@@ -13,8 +11,12 @@ __pycache__/
 *.pyd
 *.log
 
-# Entorno/secretos
+# Entornos virtuales
 .venv/
+venv/
+env/
+
+# Entorno/secretos
 .env
 .env.*
 
@@ -24,6 +26,11 @@ media/
 
 # Base de datos local (si alguna vez usas sqlite)
 db.sqlite3
+
+# Tests / coverage
+.coverage
+htmlcov/
+.pytest_cache/
 
 # IDEs
 .vscode/
